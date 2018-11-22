@@ -1,0 +1,398 @@
+{% extends 'basemain.html' %}
+{% block title %}<title> 测试用例</title> {% endblock %}
+{% block content %}
+<div class="col-md-1 ">
+<ul class="nav nav-pills nav-stacked">
+    <li role="presentation" ><a
+        href="/#/">首页</a></li>
+    {% if product == 'broke' %}
+    <li role="presentation" class="active"><a
+        href="/yyBroke/broke" >有鱼股票</a></li>
+    <li role="presentation" ><a
+        href="/yyBroke/wm">有鱼智投</a></li>
+    <li role="presentation"><a href="/yyBroke/pc">PC客户端</a></li>
+    <li role="presentation"><a href="/yyBroke/yunying">运营项目</a></li>
+    {% elif product == 'wm' %}
+    <li role="presentation" ><a
+        href="/yyBroke/broke" >有鱼股票</a></li>
+    <li role="presentation" class="active"><a
+        href="/yyBroke/wm">有鱼智投</a></li>
+    <li role="presentation"><a href="/yyBroke/pc">PC客户端</a></li>
+    <li role="presentation"><a href="/yyBroke/yunying">运营项目</a></li>
+    {% elif product == 'pc'  %}
+    <li role="presentation"><a
+        href="/yyBroke/broke" >有鱼股票</a></li>
+    <li role="presentation" ><a
+        href="/yyBroke/wm">有鱼智投</a></li>
+    <li role="presentation" class="active"><a href="/yyBroke/pc">PC客户端</a></li>
+    <li role="presentation"><a href="/yyBroke/yunying">运营项目</a></li>
+    {% elif product == 'yunying' %}
+    <li role="presentation"><a
+        href="/yyBroke/broke" >有鱼股票</a></li>
+    <li role="presentation" ><a
+        href="/yyBroke/wm">有鱼智投</a></li>
+    <li role="presentation" ><a href="/yyBroke/pc">PC客户端</a></li>
+    <li role="presentation" class="active"><a href="/yyBroke/yunying">运营项目</a></li>
+    {% endif %}
+</ul>
+</div>
+<div class="col-md-11  ">
+<div class="row" id="casesBrok">
+<ol class="breadcrumb">
+    {% if product == 'broke'%}
+    <li><a href="#">2018年</a></li>
+    <li ><a href="/yyBroke/{{ product }}">有鱼股票</a></li>
+    <li ><a href="/{{ product }}/{{ version }}/caseModel/">{{ version }}</a> </li>
+    <li class="active">{{ caseModel }}</li>
+    <button type="button" style="float: right" class="btn btn-primary" @click="saveData()">保存</button>
+    <button type="button" style="float: right;margin-right: 10px" class="btn btn-primary" onclick="javascript:history.back(-1)">返回</button>
+    {% elif product == 'wm'%}
+    <li><a href="#">2018年</a></li>
+    <li ><a href="/yyBroke/{{ product }}">有鱼智投</a></li>
+    <li ><a href="/{{ product }}/{{ version }}/caseModel/">{{ version }}</a> </li>
+    <li class="active">{{ caseModel }}</li>
+    <button type="button" style="float: right" class="btn btn-primary" @click="saveData()">保存</button>
+    <button type="button" style="float: right;margin-right: 10px" class="btn btn-primary" onclick="javascript:history.back(-1)">返回</button>
+    {% elif product == 'pc'%}
+    <li><a href="#">2018年</a></li>
+    <li ><a href="/yyBroke/{{ product }}">PC客户端</a></li>
+    <li ><a href="/{{ product }}/{{ version }}/caseModel/">{{ version }}</a> </li>
+    <li class="active">{{ caseModel }}</li>
+    <button type="button" style="float: right" class="btn btn-primary" @click="saveData()">保存</button>
+    <button type="button" style="float: right;margin-right: 10px" class="btn btn-primary" onclick="javascript:history.back(-1)">返回</button>
+    {% elif product == 'yunying'%}
+    <li><a href="#">2018年</a></li>
+    <li ><a href="/yyBroke/{{ product }}">运营项目</a></li>
+    <li ><a href="/{{ product }}/{{ version }}/caseModel/">{{ version }}</a> </li>
+    <li class="active">{{ caseModel }}</li>
+    <button type="button" style="float: right" class="btn btn-primary" @click="saveData()">保存</button>
+    <button type="button" style="float: right;margin-right: 10px" class="btn btn-primary" onclick="javascript:history.back(-1)">返回</button>
+    {% endif %}
+</ol>
+<div class="panel panel-info">
+    <div class="panel-body">
+   <form class="bs-example bs-example-form" role="form" method="POST" action="/yyBroke_search/{{ product }}&{{ version }}&{{ caseModel }}">
+       {% csrf_token %}
+      <div class="row">
+         <div class="col-lg-3">
+            <div class="input-group">
+               <input type="text" class="form-control" v-model="keyWords" placeholder="请输入关键字" >
+               <span class="input-group-btn">
+                  <button class="btn btn-default" type="button" @click="changeColor()">
+                     搜索
+                  </button>
+               </span>
+            </div>
+         </div>
+          <div class="col-lg-3">
+              <span class="default">优先级：</span>
+              {% if prior == "" %}
+                  <select class="selectpicker" title="请选择" name ="prior">
+                      <option value="" selected></option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                  </select>
+              {% elif prior == "1" %}
+              <select class="selectpicker" title="请选择" name ="prior">
+                      <option value="" ></option>
+                      <option value="1" selected>1</option>
+                      <option value="2">2</option>
+                  </select>
+              {% else %}
+              <select class="selectpicker" title="请选择" name ="prior">
+                      <option value="" ></option>
+                      <option value="1">1</option>
+                      <option value="2" selected>2</option>
+                  </select>
+              {% endif %}
+          </div>
+          <div class="col-lg-3">
+              <span class="default">测试结果：</span>
+              {% if  caseResult == "" %}
+              <select class="selectpicker" title="请选择" name ="caseResult">
+                      <option value="" selected></option>
+                      <option value="pass">pass</option>
+                      <option value="fail">fail</option>
+                  </select>
+              {% elif caseResult == "pass" %}
+              <select class="selectpicker" title="请选择" name ="caseResult">
+                      <option value="" ></option>
+                      <option value="pass" selected >pass</option>
+                      <option value="fail">fail</option>
+                  </select>
+              {% else %}
+              <select class="selectpicker" title="请选择" name ="caseResult">
+                      <option value="" ></option>
+                      <option value="pass">pass</option>
+                      <option value="fail" selected>fail</option>
+                  </select>
+              {% endif %}
+          </div>
+          <div class="col-lg-1">
+              <button class="btn btn-primary" @click="searchCase('{{ version }} ','{{ caseModel }}')">搜索</button>
+          </div>
+      </div>
+   </form>
+    </div>
+</div>
+<div class="panel-group" id="accordion">
+    <div class="panel panel-info">
+        <div class="panel-heading" id="modelName">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent = "#accordion" href="#demo">{{ caseModel }}</a>
+                </h4>
+        </div>
+        <div id="demo" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <table class="table table-bordered" ref ="table">
+                   <thead>
+                      <tr>
+                         <th>需求</th>
+                         <th>测试用例级路径</th>
+                         <th>用例标题</th>
+                         <th>预置条件</th>
+                         <th>步骤</th>
+                         <th>步骤动作</th>
+                         <th>预期结果</th>
+                         <th>优先级</th>
+                         <th>测试结果</th>
+                         <th>说明</th>
+                          <th>操作</th>
+                          <th>执行记录</th>
+                      </tr>
+                   </thead>
+                   <tbody ref="tbodyCase" >
+                   {% for case in cases %}
+                   <tr ref="tr">
+                       <td ref="td" style="display:none">{{ case.id }}</td>
+                       <td class="col-xs-1" ><a  href="http://jira.mhs.local/browse/{{ case.xuqiu }}" target = '_BLANK' >
+                              <input type="text" style="border: hidden;width: 100%;height: 100%" disabled="disabled"
+                                     value="{{ case.xuqiu }}" ></a> </td>
+                       <td class="col-xs-1" ><div contenteditable="true" class="mytextarea" >{{ case.case_router }}</div></td>
+                          <td class="col-xs-1"><div contenteditable="true" class="mytextarea" > {{ case.case_title }}</div></td>
+                          <td class="col-xs-1"><div contenteditable="true" class="mytextarea" > {{ case.case_pre }}</div></td>
+                          <td class="col-xs-0.5"><div contenteditable="true" class="mytextarea" > {{ case.case_step }}</div></td>
+                          <td class="col-xs-2"><div contenteditable="true" class="mytextarea" >{{ case.case_action }}</div></td>
+                          <td class="col-xs-2"><div contenteditable="true" class="mytextarea" > {{ case.case_actionPre }}</div></td>
+                          <!--<td class="col-xs-1"><textarea class="mytextarea"  rows=3> {{ case.case_prior }}</textarea></td>-->
+                          {% if case.case_prior == "" %}
+                                <td class="col-xs-0.5"><select class="mytextarea" name="selectPrior" >
+                                    <option value="" selected></option>
+                                    <option value="1" >1</option>
+                                    <option value="2" >2</option>
+                                </select></td>
+                          {% elif case.case_prior == "1" %}
+                                <td class="col-xs-0.5"><select class="mytextarea" name="selectPrior">
+                                    <option value="" ></option>
+                                    <option value="1" selected>1</option>
+                                    <option value="2" >2</option>
+                                </select></td>
+                          {% else %}
+                                 <td class="col-xs-0.5"><select class="mytextarea" name="selectPrior">
+                                        <option value="" ></option>
+                                        <option value="1" >1</option>
+                                        <option value="2" selected >2</option>
+                                 </select></td>
+                          {% endif %}
+
+                          {% if case.case_result == ""%}
+                              <td class="col-xs-0.5"><select class="mytextarea" >
+                                  <option value="" selected></option>
+                                  <option value="pass">pass</option>
+                                  <option value="fail">fail</option>
+                                  <option value="block">block</option>
+                              </select></td>
+                          {% elif case.case_result == "pass" %}
+                                <td class="col-xs-0.5"><select class="mytextarea" >
+                                  <option value="" selected></option>
+                                  <option value="pass" selected>pass</option>
+                                  <option value="fail">fail</option>
+                                  <option value="block">block</option>
+                              </select></td>
+                          {% elif case.case_result == "fail" %}
+                                <td class="col-xs-0.5"><select class="mytextarea" >
+                                  <option value="" selected></option>
+                                  <option value="pass">pass</option>
+                                  <option value="fail" selected>fail</option>
+                                  <option value="block">block</option>
+                              </select></td>
+                          {% else %}
+                                <td class="col-xs-0.5"><select class="mytextarea" >
+                                  <option value="" selected></option>
+                                  <option value="pass">pass</option>
+                                  <option value="fail">fail</option>
+                                  <option value="block" selected>block</option>
+                              </select></td>
+                          {% endif %}
+                       <td class="col-xs-1"><div contenteditable="true" class="mytextarea"> {{ case.case_insru }}</div></td>
+                       <td><button type="button" class="btn-info" @click="insert_row('{{ case.case_id }}','{{ case.case_version_id }}','{{ case.case_model }}')">新增</button><br>
+                        <button type="button" class="btn-danger" @click="delete_case('{{ case.id }}')" >删除</button></td>
+                       <td class="col-md-0.5"><button @click="execteLog('{{ case.id }}')" data-toggle="modal" data-target="#exampleModal" >查看</button></td>
+                      </tr>
+                   {% endfor %}
+                   </tbody>
+                </table>
+                </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="margin-top: 200px;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <table class="table table-bordered">
+              <thead>执行记录</thead>
+              <tbody>
+              <tr>
+                  <th>执行人</th>
+                  <th>执行结果</th>
+                  <th>执行时间</th>
+              </tr>
+
+              <tr v-for="(item,index) in list">
+                  <td class="col-xs-4">{! item.case_execute !}</td>
+                  <td class="col-xs-4" >{! item.case_executeResult !}</td>
+                  <td class="col-xs-4" >{! item.case_executeTime !}</td>
+              </tr>
+              </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+{% endblock %}
+{% block vuejs %}
+<script type="text/javascript">
+    var vm = new Vue({
+        delimiters: ['{!', '!}'],
+        el: '#casesBrok',
+        i:0,
+        data(){
+            return {
+                keyWords:'',
+                results:[],
+                prior:'',
+                caseResult:'',
+                casetable:'#table',
+                list:[]
+            };
+        },
+        // created(){
+        //     case_id = this.$refs.tr.innerHTML;
+        //     console.log(case_id);
+        //     this.execteLog();
+        //     },
+        methods: {
+            changeColor() {
+                let oBox = this.$refs.table;
+                let body = this.$refs.table.innerHTML;
+                if (this.keyWords && this.keyWords.length > 0) {
+                    var value = this.keyWords;
+                    var fen = body.split(value);
+                    oBox.innerHTML = fen.join('<span style="background: red;">'+value+'</span>');
+                    console.log(oBox)
+                }else{
+                    window.location.reload();
+                }
+                console.log(body);
+            },
+            delete_case(caseid){
+                console.log(caseid);
+                data_to_send={
+                    caseId :caseid
+                };
+                console.log(data_to_send);
+                axios.post('/yyBrokeCase_delete/',data_to_send)
+                    .then(resp =>{
+                        console.log(resp.data);
+                        window.location.reload();
+                    }).catch(err=>{
+                        console.log('请求失败:'+err.status+','+err.statusText);
+                })
+            },
+            insert_row(case_id,caseVersion,caseModel){
+                console.log(case_id,caseVersion,caseModel);
+                data_to_send={
+                    caseId :case_id,
+                    caseVersion:caseVersion,
+                    caseModel:caseModel
+                };
+                axios.post('/yyBrokeCase_insert/',data_to_send)
+                    .then(resp =>{
+                        console.log(resp.data);
+                        window.location.reload();
+                    }).catch(err=>{
+                        console.log('请求失败:'+err.status+','+err.statusText);
+                })
+            },
+            saveData(){
+                myonloading("保存中...",100);
+                let oBox = this.$refs.table;
+                let rows = oBox.rows.length;
+                let dssfs =oBox.rows[1].cells[1].children[0].children[0].value;
+                console.log(dssfs);
+                var case_data = new Array();
+                for (var i=1;i< rows;i++){
+                        let xuqiu = oBox.rows[i].cells[1].children[0].children[0].value;
+                        let prior = oBox.rows[i].cells[8].children[0];
+                        let prior_index =prior.selectedIndex;
+                        let prior_value = prior.options[prior_index].value;
+                        let result = oBox.rows[i].cells[9].children[0];
+                        let result_index =result.selectedIndex;
+                        let result_value = result.options[result_index].value;
+                        casedata={
+                            caseid:oBox.rows[i].cells[0].innerText,
+                            xuqiu:xuqiu,
+                            case_router:oBox.rows[i].cells[2].innerText,
+                            case_title:oBox.rows[i].cells[3].innerText,
+                            case_pre:oBox.rows[i].cells[4].innerText,
+                            case_step:oBox.rows[i].cells[5].innerText,
+                            case_action:oBox.rows[i].cells[6].innerText,
+                            case_actionPre:oBox.rows[i].cells[7].innerText,
+                            case_prior:prior_value,
+                            case_result:result_value,
+                            case_infor:oBox.rows[i].cells[10].innerText,
+                        };
+                        case_data.push(casedata)
+                }
+                console.log(case_data);
+                data_to_send={
+                    all_case:case_data
+                };
+                axios.post('/yyBrokeCase_save/',data_to_send)
+                    .then(resp =>{
+                        myonloading("保存成功",resp.status);
+                        console.log(resp.data);
+                        window.location.reload();
+                    }).catch(err=>{
+                        console.log('请求失败:'+err.status+','+err.statusText);
+                })
+
+            },
+            execteLog(caseid){
+                data_to_send={
+                    caseId :caseid
+                };
+                console.log(data_to_send);
+                axios.post('/execteLog/',data_to_send)
+                    .then(resp =>{
+                        console.log(resp.data.length);
+                        console.log(resp.data);
+                        this.list = resp.data
+                        console.log(this.list)
+                    }).catch(err=>{
+                        console.log('请求失败:'+err.status+','+err.statusText);
+                })
+            }
+            }
+    })
+</script>
+
+{% endblock %}

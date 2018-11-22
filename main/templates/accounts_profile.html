@@ -1,0 +1,98 @@
+{% extends 'basemain.html' %}
+{% block title %}个人信息修改 {% endblock %}
+{% block content %}<h2>Here!!</h2>
+<div id="app">
+    {% csrf_token %}
+    <table class="table table-hover form-group">
+        <thead>
+            <tr>
+                <th>编号</th>
+                <th>项目</th>
+                <th>值</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>0</td>
+                <td>账户（不可改）</td>
+                <td><span v-text="email" class="form-control" ></span></td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>姓名</td>
+                <td><input v-model="name" class="form-control"></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>生日</td>
+                <td><input type="date" v-model="birthday" class="form-control"></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>电话</td>
+                <td><input v-model="phone" class="form-control"></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>性别</td>
+                <td><select  v-model="sex" class="form-control">
+                    <option>男</option>
+                    <option>女</option>
+                </select></td>
+            </tr>
+        </tbody>
+    </table>
+    <button @click ="submit" class="btn btn-primary">保存修改</button>
+</div>
+{% endblock %}
+{% block vuejs %}
+<script type="text/javascript">
+    $.ajaxSetup({
+    data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            email: '{{ request.user.email }}',
+            name: '{{ request.user.name }}',
+            birthday: '{{ request.user.birthday }}',
+            phone: '{{ request.user.job_number }}',
+            sex: '{{ request.user.sex }}',
+        },
+        methods: {
+            submit() {
+                data_to_send ={
+                    name: this.name,
+                    birthday: this.birthday,
+                    phone: this.phone,
+                    sex: this.sex,
+                };
+                console.log(data_to_send);
+                //data_to_send = JSON.stringify(data_to_send);
+                //console.log(data_to_send);
+
+                axios.post('/accounts/profile/',data_to_send)
+                    .then(resp =>{
+                        console.log(resp.data);
+                    }).catch(err=>{
+                        console.log('请求失败:'+err.status+','+err.statusText);
+                })
+
+            /*
+                $.post('/accounts/profile/',
+                    data_to_send,
+                    function (r, err) {
+                        if (err === 'success') {
+                           alert('修改已保存');
+                           return location.assign('/')
+                        } else {
+                            return console.log(err);
+                        }
+                   })
+               */
+
+            }
+        }
+    })
+</script>
+{% endblock %}

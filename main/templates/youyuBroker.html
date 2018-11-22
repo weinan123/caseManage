@@ -1,0 +1,186 @@
+{% extends 'basemain.html' %}
+{% block title %}<title> 测试版本</title> {% endblock %}
+{% block content %}
+<div class="col-md-1 ">
+<ul class="nav nav-pills nav-stacked">
+    <li role="presentation" ><a
+        href="/#/">首页</a></li>
+    {% if product == 'broke' %}
+    <li role="presentation" class="active"><a
+        href="/yyBroke/broke" >有鱼股票</a></li>
+    <li role="presentation" ><a
+        href="/yyBroke/wm">有鱼智投</a></li>
+    <li role="presentation"><a href="/yyBroke/pc">PC客户端</a></li>
+    <li role="presentation"><a href="/yyBroke/yunying">运营项目</a></li>
+    {% elif product == 'wm' %}
+    <li role="presentation" ><a
+        href="/yyBroke/broke" >有鱼股票</a></li>
+    <li role="presentation" class="active"><a
+        href="/yyBroke/wm">有鱼智投</a></li>
+    <li role="presentation"><a href="/yyBroke/pc">PC客户端</a></li>
+    <li role="presentation"><a href="/yyBroke/yunying">运营项目</a></li>
+    {% elif product == 'pc'  %}
+    <li role="presentation"><a
+        href="/yyBroke/broke" >有鱼股票</a></li>
+    <li role="presentation" ><a
+        href="/yyBroke/wm">有鱼智投</a></li>
+    <li role="presentation" class="active"><a href="/yyBroke/pc">PC客户端</a></li>
+    <li role="presentation"><a href="/yyBroke/yunying">运营项目</a></li>
+    {% elif product == 'yunying' %}
+    <li role="presentation"><a
+        href="/yyBroke/broke" >有鱼股票</a></li>
+    <li role="presentation" ><a
+        href="/yyBroke/wm">有鱼智投</a></li>
+    <li role="presentation" ><a href="/yyBroke/pc">PC客户端</a></li>
+    <li role="presentation" class="active"><a href="/yyBroke/yunying">运营项目</a></li>
+    {% endif %}
+</ul>
+</div>
+<div class="col-md-11 ">
+<div class="row">
+<ol class="breadcrumb">
+    {% if product == 'broke'%}
+    <li><a href="#">2018年</a></li>
+    <li class="active">有鱼股票</li>
+    {% elif product == 'wm'%}
+    <li><a href="#">2018年</a></li>
+    <li class="active">有鱼智投</li>
+    {% elif product == 'pc'%}
+    <li><a href="#">2018年</a></li>
+    <li class="active">PC客户端</li>
+    {% elif product == 'yunying'%}
+    <li><a href="#">2018年</a></li>
+    <li class="active">运营项目</li>
+    {% endif %}
+    <button type="button" style="float: right" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  新增版本
+ </button>
+</ol>
+</div>
+<div class="row" id="casedetail">
+<ul class="list-group" >
+    {% for version in versions %}
+        <li class="list-group-item"  >{{ version.name }}
+            <a href="/{{ product }}/{{ version.version }}/caseModel"><span style="float: right" class="glyphicon glyphicon-sort-by-attributes"></span></a>
+            <button type="button" data-toggle="modal" data-target="#exampleModal" @click="edit_case('{{ version.id }}','{{ version.version }}',
+            '{{ version.name }}')" style="position: relative;float: right;margin-right: 20px" class="btn-info" >编辑</button>
+            <button type="button" @click="delete_case('{{ version.version }}')"  class="btn-danger" style="position: relative;float: right"  >删除</button>
+        </li>
+    {% endfor %}
+</ul>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">新增版本</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form role="form" class="form-horizontal">
+              <div class="form-group" style="display:none">
+                  <input type="text" class="form-control" id="caseId"  v-model="caseId" ref="caseId"><br>
+              </div>
+              <div class="form-group">
+                  <label for="version" class="col-sm-3">版本号</label>
+                  <div class="col-sm-6">
+                  <input type="text" class="form-control" id = "version" v-model="caseVersion" ref="caseVersion"  placeholder="请输入版本号" ><br>
+              </div>
+                  <div class ="col-sm-3"></div>
+              </div>
+              <div class="form-group">
+                  <label for="casename" class="col-sm-3" >用例名称</label>
+                  <div class="col-sm-6">
+                  <input type="text" class="form-control" id = "casename" v-model="caseName"   ref = "caseName"  placeholder="请输入用例名称">
+              </div>
+              </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" @click ="submit('{{ product }}')" data-dismiss="modal">保存</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+{% endblock %}
+{% block vuejs %}
+<script type="text/javascript">
+
+    var vm = new Vue({
+        el: '#casedetail',
+        data: {
+            caseName: '',
+            caseVersion:'',
+            version:'',
+            caseId:'',
+        },
+        methods: {
+            submit(product) {
+                if(this.caseId != ""){
+                    data_to_send={
+                        id :this.caseId,
+                        name :this.caseName,
+                        version:this.caseVersion,
+                        product:product
+                        };
+                      console.log(data_to_send);
+                        axios.post('/yyBroke_edit/'+product,data_to_send)
+                        .then(resp =>{
+                            console.log(resp.data);
+                            window.location.reload();
+                        }).catch(err=>{
+                            console.log('请求失败:'+err.status+','+err.statusText);
+                    });
+                }else {
+                    data_to_send ={
+                        case_name: this.$refs.caseName.value,
+                        case_version:this.$refs.caseVersion.value,
+                        case_id:this.$refs.caseId.value,
+                    };
+                    console.log(data_to_send);
+                    axios.post('/yyBroke/'+ product,data_to_send).then(resp =>{
+                            console.log(resp.data);
+                            window.location.reload();
+
+                        }).catch(err=>{
+                            console.log('请求失败:'+err.status+','+err.statusText);
+                    })
+
+                }
+            },
+            delete_case(version){
+                console.log(version);
+                data_to_send={
+                    version :version
+                };
+                console.log(data_to_send);
+                axios.post('/yyBroke_delete/',data_to_send)
+                    .then(resp =>{
+                        if(resp.data.length>50){
+                            console.log(resp.data);
+                            window.location.reload();
+                        }else{
+                            console.log(resp.data);
+                            window.alert(resp.data);
+                        }
+                    }).catch(err=>{
+                        console.log('请求失败:'+err.status+','+err.statusText);
+                })
+
+            },
+            edit_case(id,version,name){
+               this.caseName=name;
+               this.caseVersion=version;
+               this.caseId = id;
+               console.log(version);
+            }
+        }
+    })
+</script>
+{% endblock %}
+

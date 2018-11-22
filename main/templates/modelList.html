@@ -1,0 +1,184 @@
+{% extends 'basemain.html' %}
+{% block title %}<title> 测试模块</title> {% endblock %}
+{% block content %}
+<div class="col-md-1 ">
+<ul class="nav nav-pills nav-stacked">
+    <li role="presentation" ><a
+        href="/#/">首页</a></li>
+    {% if product == 'broke' %}
+    <li role="presentation" class="active"><a
+        href="/yyBroke/broke" >有鱼股票</a></li>
+    <li role="presentation" ><a
+        href="/yyBroke/wm">有鱼智投</a></li>
+    <li role="presentation"><a href="/yyBroke/pc">PC客户端</a></li>
+    <li role="presentation"><a href="/yyBroke/yunying">运营项目</a></li>
+    {% elif product == 'wm' %}
+    <li role="presentation" ><a
+        href="/yyBroke/broke" >有鱼股票</a></li>
+    <li role="presentation" class="active"><a
+        href="/yyBroke/wm">有鱼智投</a></li>
+    <li role="presentation"><a href="/yyBroke/pc">PC客户端</a></li>
+    <li role="presentation"><a href="/yyBroke/yunying">运营项目</a></li>
+    {% elif product == 'pc'  %}
+    <li role="presentation"><a
+        href="/yyBroke/broke" >有鱼股票</a></li>
+    <li role="presentation" ><a
+        href="/yyBroke/wm">有鱼智投</a></li>
+    <li role="presentation" class="active"><a href="/yyBroke/pc">PC客户端</a></li>
+    <li role="presentation"><a href="/yyBroke/yunying">运营项目</a></li>
+    {% elif product == 'yunying' %}
+    <li role="presentation"><a
+        href="/yyBroke/broke" >有鱼股票</a></li>
+    <li role="presentation" ><a
+        href="/yyBroke/wm">有鱼智投</a></li>
+    <li role="presentation" ><a href="/yyBroke/pc">PC客户端</a></li>
+    <li role="presentation" class="active"><a href="/yyBroke/yunying">运营项目</a></li>
+    {% endif %}
+</ul>
+</div>
+<div class="col-md-11 ">
+<div class="row" id="casesBrok">
+<ol class="breadcrumb">
+    {% if product == 'broke'%}
+    <li><a href="#">2018年</a></li>
+    <li ><a href="/yyBroke/{{ product }}">有鱼股票</a></li>
+    <li class="active">{{ case_version }}</li>
+     <button type="button" style="float: right" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  上传用例
+ </button>
+    <button type="button" style="float: right;margin-right: 10px" class="btn btn-primary"  onclick="javascript:history.back(-1);" >返回</button>
+    {% elif product == 'wm'%}
+    <li><a href="#">2018年</a></li>
+    <li ><a href="/yyBroke/{{ product }}">有鱼智投</a></li>
+    <li class="active">{{ case_version }}</li>
+     <button type="button" style="float: right" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  上传用例
+ </button>
+    <button type="button" style="float: right;margin-right: 10px" class="btn btn-primary"  onclick="javascript:history.back(-1);" >返回</button>
+    {% elif product == 'pc'%}
+    <li><a href="#">2018年</a></li>
+    <li ><a href="/yyBroke/{{ product }}">PC客户端</a></li>
+    <li class="active">{{ case_version }}</li>
+     <button type="button" style="float: right" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  上传用例
+ </button>
+    <button type="button" style="float: right;margin-right: 10px" class="btn btn-primary"  onclick="javascript:history.back(-1);" >返回</button>
+    {% elif product == 'yunying'%}
+    <li><a href="#">2018年</a></li>
+    <li ><a href="/yyBroke/{{ product }}">运营项目</a></li>
+    <li class="active">{{ case_version }}</li>
+     <button type="button" style="float: right" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  上传用例
+ </button>
+    <button type="button" style="float: right;margin-right: 10px" class="btn btn-primary"  onclick="javascript:history.back(-1);" >返回</button>
+    {% endif %}
+</ol>
+<h3>模块名称</h3>
+{% for model in models %}
+<ul class="list-group" >
+    <li class="list-group-item" style="background-color:#bce8f1">{{ model.case_modelName }}
+        <button type="button" class="btn-danger" style="float: right"
+                @click = "deleteModel('{{ model.id }}','{{ model.case_modelName }}','{{ product }}','{{ case_version }}')">删除</button>
+        <a style="float: right;margin-right: 15px" href="/yyBroke_search/{{ product }}&{{ case_version}}&{{ model.case_modelName }}">点击查看详细用例</a>
+    </li>
+</ul>
+{% endfor %}
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">导入</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <form role="form" class="form-horizontal">
+              <div class="form-group">
+                  <label for="version" class="col-sm-3">文件名称</label>
+                  <div class="col-sm-6">
+                  <input type="text" class="form-control" id = "version" v-model="caseName" ref="caseName"  placeholder="请输入用例名称" ><br>
+              </div>
+                  <div class ="col-sm-3"></div>
+              </div>
+              <div class="form-group">
+                  <label for="inputfile" class="col-sm-3" >用例名称</label>
+                  <div class="col-sm-6">
+                  <input type="file" class="form-control" id = "inputfile" ref="caseFile">
+              </div>
+              </div>
+          </form>
+      </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" @click ="upload('{{ case_version }}','{{ product }}')" data-dismiss="modal">上传</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+{% endblock %}
+{% block vuejs %}
+<script type="text/javascript">
+    var vm = new Vue({
+        el: '#casesBrok',
+        data: {
+            caseFile: '',
+            caseName: ''
+        },
+        methods: {
+            upload(version,product) {
+                myonloading("正在上传...",100);
+                caseName = this.$refs.caseName.value;
+                caseFile = this.$refs.caseFile.files[0];
+                case_version = version;
+                product_name = product;
+                event.preventDefault();
+                let formData = new FormData();
+                let requestConfig = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                };
+                formData.append('filename', caseName);
+                formData.append('files', caseFile);
+                formData.append('case_version', case_version);
+                formData.append('product_name', product_name);
+                console.log(formData);
+                axios.post("/uploadFiles/", formData, requestConfig ).then(function (response) {
+                    console.log("res:", response);
+                    myonloading("正在上传...",response.status);
+                    window.location.reload();
+                }).catch(err=>{
+                        console.log('请求失败:'+err.status+','+err.statusText);
+                        window.alert("上传失败了，请检查你的用例模板")
+                })
+            },
+            deleteModel(modelId,modelName,product,caseversion){
+                data_to_send={
+                        id : modelId,
+                        name :modelName,
+                        version:caseversion,
+                        product:product
+                        };
+                      console.log(data_to_send);
+                        axios.post('/caseModel_delete/',data_to_send)
+                        .then(resp =>{
+                       if(resp.data.length>50){
+                            console.log(resp.data);
+                            window.location.reload();
+                        }else{
+                            console.log(resp.data);
+                            window.alert(resp.data);
+                        }
+                        }).catch(err=>{
+                            console.log('请求失败:'+err.status+','+err.statusText);
+                    });
+
+
+            }
+        }
+    })
+</script>
+{% endblock %}

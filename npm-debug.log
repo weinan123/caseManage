@@ -1,0 +1,71 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files (x86)\\Appium\\\\node.exe',
+1 verbose cli   'C:\\Program Files (x86)\\Appium\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'bootstrape-select' ]
+2 info using npm@1.4.6
+3 info using node@v0.12.9
+4 verbose node symlink C:\Program Files (x86)\Appium\\node.exe
+5 verbose cache add [ 'bootstrape-select', null ]
+6 verbose cache add name=undefined spec="bootstrape-select" args=["bootstrape-select",null]
+7 verbose parsed url { protocol: null,
+7 verbose parsed url   slashes: null,
+7 verbose parsed url   auth: null,
+7 verbose parsed url   host: null,
+7 verbose parsed url   port: null,
+7 verbose parsed url   hostname: null,
+7 verbose parsed url   hash: null,
+7 verbose parsed url   search: null,
+7 verbose parsed url   query: null,
+7 verbose parsed url   pathname: 'bootstrape-select',
+7 verbose parsed url   path: 'bootstrape-select',
+7 verbose parsed url   href: 'bootstrape-select' }
+8 silly lockFile 7b31760c-bootstrape-select bootstrape-select
+9 verbose lock bootstrape-select C:\Users\nan.wei\AppData\Roaming\npm-cache\7b31760c-bootstrape-select.lock
+10 silly lockFile 7b31760c-bootstrape-select bootstrape-select
+11 silly lockFile 7b31760c-bootstrape-select bootstrape-select
+12 verbose addNamed [ 'bootstrape-select', '' ]
+13 verbose addNamed [ null, '*' ]
+14 silly lockFile 7b1b33da-bootstrape-select bootstrape-select@
+15 verbose lock bootstrape-select@ C:\Users\nan.wei\AppData\Roaming\npm-cache\7b1b33da-bootstrape-select.lock
+16 silly addNameRange { name: 'bootstrape-select', range: '*', hasData: false }
+17 verbose url raw bootstrape-select
+18 verbose url resolving [ 'https://registry.npmjs.org/', './bootstrape-select' ]
+19 verbose url resolved https://registry.npmjs.org/bootstrape-select
+20 info trying registry request attempt 1 at 11:44:08
+21 http GET https://registry.npmjs.org/bootstrape-select
+22 http 404 https://registry.npmjs.org/bootstrape-select
+23 silly registry.get cb [ 404,
+23 silly registry.get   { date: 'Thu, 08 Nov 2018 03:45:13 GMT',
+23 silly registry.get     'content-type': 'application/json',
+23 silly registry.get     'content-length': '21',
+23 silly registry.get     connection: 'close',
+23 silly registry.get     'set-cookie': [ '__cfduid=d2bf530b6eddee9e9655b18fd53faed5c1541648713; expires=Fri, 08-Nov-19 03:45:13 GMT; path=/; domain=.registry.npmjs.org; HttpOnly' ],
+23 silly registry.get     'cf-cache-status': 'MISS',
+23 silly registry.get     'cache-control': 'max-age=300',
+23 silly registry.get     'cf-ray': '47650bab78639973-LAX',
+23 silly registry.get     'expect-ct': 'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"',
+23 silly registry.get     vary: 'accept-encoding, accept',
+23 silly registry.get     server: 'cloudflare' } ]
+24 silly lockFile 7b1b33da-bootstrape-select bootstrape-select@
+25 silly lockFile 7b1b33da-bootstrape-select bootstrape-select@
+26 error Error: Not found : bootstrape-select
+26 error     at RegClient.<anonymous> (C:\Program Files (x86)\Appium\node_modules\npm\node_modules\npm-registry-client\lib\request.js:254:14)
+26 error     at Request._callback (C:\Program Files (x86)\Appium\node_modules\npm\node_modules\npm-registry-client\lib\request.js:192:65)
+26 error     at Request.self.callback (C:\Program Files (x86)\Appium\node_modules\npm\node_modules\request\request.js:123:22)
+26 error     at Request.emit (events.js:110:17)
+26 error     at Request.<anonymous> (C:\Program Files (x86)\Appium\node_modules\npm\node_modules\request\request.js:893:14)
+26 error     at Request.emit (events.js:129:20)
+26 error     at IncomingMessage.<anonymous> (C:\Program Files (x86)\Appium\node_modules\npm\node_modules\request\request.js:844:12)
+26 error     at IncomingMessage.emit (events.js:129:20)
+26 error     at _stream_readable.js:908:16
+26 error     at process._tickCallback (node.js:355:11)
+27 error If you need help, you may report this *entire* log,
+27 error including the npm and node versions, at:
+27 error     <http://github.com/npm/npm/issues>
+28 error System Windows_NT 10.0.10586
+29 error command "C:\\Program Files (x86)\\Appium\\\\node.exe" "C:\\Program Files (x86)\\Appium\\node_modules\\npm\\bin\\npm-cli.js" "install" "bootstrape-select"
+30 error cwd D:\mysite
+31 error node -v v0.12.9
+32 error npm -v 1.4.6
+33 verbose exit [ 1, true ]

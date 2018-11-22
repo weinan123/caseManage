@@ -1,0 +1,48 @@
+{% extends 'basemain.html' %}
+{% block title %}<title> 首页</title> {% endblock %}
+{% block content %}
+<div class="col-md-1 "  >
+<ul class="nav nav-pills nav-stacked">
+    <li role="presentation" class="active" ><a
+        href="/index/">首页</a></li>
+    <li role="presentation" ><a
+        href="/yyBroke/broke" >有鱼股票</a></li>
+    <li role="presentation" ><a
+        href="/yyBroke/wm">有鱼智投</a></li>
+    <li role="presentation"><a
+        href="/yyBroke/pc">PC客户端</a></li>
+    <li role="presentation">
+        <a href="/yyBroke/yunying">运营项目</a></li>
+</ul>
+</div>
+<div class="col-md-11 row" >
+    <div class="col-md-1"></div>
+    <div class="col-md-2" style="height: 230px;">
+        <div class="list-group">
+            <a href="#" class="list-group-item active"><h5 >有鱼股票</h5></a>
+            <a href="#" class="list-group-item "><h5 >用例总数：{{ all_yycase }}</h5><br><h5 >通过用例数：{{ all_yypassCase }}</h5></a>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-2" style="height: 200px;">
+        <div class="list-group">
+            <a href="#" class="list-group-item active"><h5 >有鱼智投</h5></a>
+            <a href="#" class="list-group-item "><h5 >用例总数：{{ all_wmcase }}</h5><br><h5 >通过用例数：{{ all_wmpassCase }}</h5></a>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-2" style="height: 230px;">
+        <div class="list-group">
+            <a href="#" class="list-group-item active"><h5 >PC客户端</h5></a>
+            <a href="#" class="list-group-item "><h5 >用例总数：{{ all_pccase }}</h5><br><h5 >通过用例数：{{ all_pcpassCase }}</h5></a>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-2" style="height: 230px;">
+        <div class="list-group">
+            <a href="#" class="list-group-item active"><h5 >运营项目</h5></a>
+            <a href="#" class="list-group-item "><h5 >用例总数：{{ all_yunyingcase }}</h5><br><h5 >通过用例数：{{ all_yunyingpassCase }}</h5></a>
+        </div>
+    </div>
+</div>
+{% endblock %}
